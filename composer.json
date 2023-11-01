@@ -1,7 +1,8 @@
 {
     "require": {
-        "symfony/serializer": "*",
-        "ext-readline": "*"
+        "symfony/serializer": "^6.3",
+        "ext-readline": "*",
+        "symfony/property-access": "^6.3"
     },
     "autoload": {
         "psr-4": {
