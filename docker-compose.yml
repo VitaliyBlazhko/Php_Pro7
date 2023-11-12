@@ -9,13 +9,3 @@ services:
       - ".:/var/www/html"
     ports:
       - "80:80"
-
-#  web-container:
-#    image: nginx
-#    ports:
-#      - 8080:82
-#    volumes:
-#      - "./nginx.conf:/etc/nginx/conf.d/test.dev.conf:ro"
-#      - ".:/var/www/html"
-#    depends_on:
-#      - php_container

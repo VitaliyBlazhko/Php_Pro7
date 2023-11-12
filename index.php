@@ -1,35 +1,24 @@
 <?php
+
 require __DIR__ . '/vendor/autoload.php';
+use App\formGenerator\FormGenerator;
+use App\formGenerator\Checkbox;
+use App\formGenerator\TextInput;
+use App\formGenerator\Button;
 
-use App\Car;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
-?>
+$formGenerator = new FormGenerator();
+$formGenerator->addElement(new TextInput('username', true));
+$formGenerator->addElement(new TextInput('email', true));
+$formGenerator->addElement(new Checkbox('subscribe'));
+$formGenerator->addElement(new Button('submit'));
 
-<pre>
-    <?php
-    $bmw = new Car();
-    $bmw->setColor('black');
-    $bmw->setCompany('BMW');
-    $bmw->setModel('X5');
-    $bmw->setPrice('38000$');
-    var_dump($bmw);
-    echo PHP_EOL;
+$formGenerator->generateForm();
 
-    $encoders = [new XmlEncoder(), new JsonEncoder()];
-    $normalizers = [new ObjectNormalizer()];
-
-    $serializer = new Serializer($normalizers, $encoders);
-
-    $jsonBmw = $serializer->serialize($bmw, 'json');
-    var_dump($jsonBmw);
-    echo PHP_EOL;
-    $unserializeBmw = $serializer->deserialize($jsonBmw, Car::class, 'json');
-
-    var_dump($unserializeBmw);
-    ?>
-
-</pre>
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($formGenerator->validateForm()) {
+        echo "Form is valid. Submitted data: <pre>" . print_r($_POST, true) . "</pre>";
+    } else {
+        echo "Form is not valid. Please fill in all required fields.";
+    }
+}
